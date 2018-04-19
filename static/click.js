@@ -40,7 +40,7 @@ $(document).ready( function() {
 
        //if
 
-       $.ajax("http://geof.herokuapp.com/" + spec_name + "/" + waterbody_name + "/" + length + "/" + is_sensitive).done(function (reply) {
+       $.ajax("https://geof.herokuapp.com/" + spec_name + "/" + waterbody_name + "/" + length + "/" + is_sensitive).done(function (reply) {
        //$.ajax("http://localhost:5000/" + spec_name + "/" + waterbody_name + "/" + length + "/" + is_sensitive).done(function (reply) {
                 results.append(reply);
              });
