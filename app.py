@@ -8,14 +8,9 @@ try:
 	DATABASE_URL = os.environ['DATABASE_URL']
 except:
 	print("defaulting to hardcoded URL")
-	
 
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-cur = conn.cursor()
-cur.execute("SELECT * FROM my_table_name;")
-db_test = str(cur.fetchone())
-cur.close()
-conn.close()
+
+
 
 @app.route("/")
 def home():
@@ -23,11 +18,23 @@ def home():
 		return render_template("welcome.html")
 
 
-
 @app.route("/<string:fish>/<string:waterbody>/<string:length>/<string:sensitive>")
 def db_query(fish,waterbody,length,sensitive):
 		# number = pgselect * from fish_guide where waterbody_code=41508250 and specname=73 and length_category_id=40 and sensitive='Sensitive'
 		number = 8
+
+		fish = u'Coho Salmon'
+		waterbody = u'Lake Erie 1 - Western Basin'
+		length = u'40-45cm'
+		sensitive = u'General'
+
+		conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+		cur = conn.cursor()
+		cur.execute("SELECT * FROM fish_guide_smol;")
+		db_test = str(cur.fetchone())
+		cur.close()
+		conn.close()
+
 
 		if sensitive == "Sensitive":
 			text = "<br>You are in a sensitive population, so you can eat less fish than other people. <br>"
