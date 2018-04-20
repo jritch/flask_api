@@ -59,7 +59,7 @@ def db_query(fish,waterbody,length,sensitive):
 			if row:
 				for item in row:
 					spec_set.add(item[0])
-		    	text = text + "The location you have selected has entries for the following species of fish: " +  ", ".join(spec_set) + ".<br><br>"
+				text = text + "The location you have selected has entries for the following species of fish: " +  ", ".join(spec_set) + ".<br><br>"
 
 			text = text + "Add the details for another fish, size or location above and try again."
 
