@@ -8,6 +8,7 @@ try:
 	DATABASE_URL = os.environ['DATABASE_URL']
 except:
 	print("defaulting to hardcoded URL")
+	DATABASE_URL = "postgres://mcbatemkzcjvoy:ad85467fec0657e9b8e17fc3fa45cab6dcf505c1f9c9e80e5aee6e9b25247a55@ec2-174-129-41-64.compute-1.amazonaws.com:5432/d65m80iae9r3g"
 
 
 
@@ -35,21 +36,26 @@ def db_query(fish,waterbody,length,sensitive):
 		query_string = "SELECT * FROM fish_guide WHERE specname=\'" + fish + "\' AND guide_locname_eng=\'" + waterbody  +"\' AND population_type_desc=\'" + sensitive + "\' AND length_category_label=\'" + length + "\';"
 		print(query_string)
 		cur.execute(query_string)
-		number = str(int(cur.fetchone()[9]))
+		row = cur.fetchone()
 
 		cur.close()
 		conn.close()
 
+		if row:
+			number = str(int(row[9]))
 
-		if sensitive == "Sensitive":
-			text = "<br>You are in a sensitive population, so you can eat less fish than other people. <br>"
-		else:
-			text = ""
+			if sensitive == "Sensitive":
+				text = "<br>You are in a sensitive population, so you can eat less fish than other people. <br>"
+			else:
+				text = ""
 
-		text = text + "<br>You caught a <strong>" + fish + "</strong> in <strong>" + waterbody + "</strong>, and it was <strong>" + length +"</strong> long.<br><br>"
-		text = text + "You can eat <strong>" + str(number) + "</strong> meals of this fish safely in one month. <br><br>"
-		text = text + "Add the details for another fish above and search again!"
+			text = text + "<br>You caught a <strong>" + fish + "</strong> in <strong>" + waterbody + "</strong>, and it was <strong>" + length +"</strong> long.<br><br>"
+			text = text + "You can eat <strong>" + str(number) + "</strong> meals of this fish safely in one month. <br><br>"
+			text = text + "Add the details for another fish above and search again!"
 		#return "<p>" + " ".join([fish,waterbody,length,sensitive]) + "</p>"
+		else:
+			text = "<br>Unfortunately, this combination of fish, location, and length is missing from our data. <br><br>"
+	 		text = text + "Add the details for another fish above and try again."
 		return text
 
 application=app
