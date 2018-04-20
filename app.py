@@ -23,11 +23,13 @@ def db_query(fish,waterbody,length,sensitive):
 		# number = pgselect * from fish_guide where waterbody_code=41508250 and specname=73 and length_category_id=40 and sensitive='Sensitive'
 		number = 8
 
+		'''
 		fish = u'Northern Pike'
 		waterbody = u'Hutchison Lake'
 		length = u'70-75cm'
 		sensitive = u'General'
-
+		'''
+		
 		conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 		cur = conn.cursor()
 		query_string = "SELECT * FROM fish_guide WHERE specname=\'" + fish + "\' AND guide_locname_eng=\'" + waterbody  +"\' AND population_type_desc=\'" + sensitive + "\' AND length_category_label=\'" + length + "\';"
