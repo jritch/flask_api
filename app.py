@@ -29,13 +29,13 @@ def db_query(fish,waterbody,length,sensitive):
 		length = u'70-75cm'
 		sensitive = u'General'
 		'''
-		
+
 		conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 		cur = conn.cursor()
 		query_string = "SELECT * FROM fish_guide WHERE specname=\'" + fish + "\' AND guide_locname_eng=\'" + waterbody  +"\' AND population_type_desc=\'" + sensitive + "\' AND length_category_label=\'" + length + "\';"
 		print(query_string)
 		cur.execute(query_string)
-		number = str(int(cur.fetchone()[10]))
+		number = str(int(cur.fetchone()[9]))
 
 		cur.close()
 		conn.close()
