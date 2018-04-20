@@ -55,7 +55,7 @@ def db_query(fish,waterbody,length,sensitive):
 		#return "<p>" + " ".join([fish,waterbody,length,sensitive]) + "</p>"
 		else:
 			text = "<br>Unfortunately, this combination of fish, location, and length is missing from our data. <br><br>"
-	 		text = text + "Add the details for another fish above and try again."
+			text = text + "Add the details for another fish above and try again."
 		return text
 
 application=app
