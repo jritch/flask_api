@@ -8,7 +8,6 @@ try:
 	DATABASE_URL = os.environ['DATABASE_URL']
 except:
 	print("defaulting to hardcoded URL")
-	DATABASE_URL = "postgres://mcbatemkzcjvoy:ad85467fec0657e9b8e17fc3fa45cab6dcf505c1f9c9e80e5aee6e9b25247a55@ec2-174-129-41-64.compute-1.amazonaws.com:5432/d65m80iae9r3g"
 
 
 
@@ -38,8 +37,6 @@ def db_query(fish,waterbody,length,sensitive):
 		cur.execute(query_string)
 		row = cur.fetchone()
 
-		cur.close()
-		conn.close()
 
 		if row:
 			number = str(int(row[9]))
@@ -55,7 +52,19 @@ def db_query(fish,waterbody,length,sensitive):
 		#return "<p>" + " ".join([fish,waterbody,length,sensitive]) + "</p>"
 		else:
 			text = "<br>Unfortunately, this combination of fish, location, and length is missing from our data. <br><br>"
-			text = text + "Add the details for another fish above and try again."
+			query_string = "SELECT specname FROM fish_guide WHERE guide_locname_eng=\'" + waterbody  +"\';"
+			cur.execute(query_string)
+			row = cur.fetchall()
+			spec_set = set()
+			if row:
+				for item in row:
+					spec_set.add(item[0])
+		    	text = text + "The location you have selected has entries for the following species of fish: " +  ", ".join(spec_set) + ".<br><br>"
+
+			text = text + "Add the details for another fish, size or location above and try again."
+
+		cur.close()
+		conn.close()
 		return text
 
 application=app
